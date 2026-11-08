@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y g++ cmake ninja-build
+          c++ --version
+          cmake --version
+      - name: Configure and build release with tests
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+          cmake --build build -j$(nproc)
+      - name: Run test suite
+        run: ctest --test-dir build --output-on-failure
+      - name: Run demo assertion
+        run: ./build/tensor-order-cli demo --assert
+      - name: Run demo JSON
+        run: ./build/tensor-order-cli demo --json
+      - name: Configure and build with AddressSanitizer and UndefinedBehaviorSanitizer
+        run: |
+          cmake -B build-san -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DTOC_SANITIZE=ON
+          cmake --build build-san -j$(nproc)
+      - name: Run sanitized test suite
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+        run: ctest --test-dir build-san --output-on-failure
+      - name: Run sanitized demo
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1:abort_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+        run: ./build-san/tensor-order-cli demo --assert

@@ -1,0 +1,150 @@
+{
+  "matrix_chain_3": {
+    "tensors": [
+      {
+        "id": 0,
+        "name": "A",
+        "axes": [
+          "i",
+          "j"
+        ]
+      },
+      {
+        "id": 1,
+        "name": "B",
+        "axes": [
+          "j",
+          "k"
+        ]
+      },
+      {
+        "id": 2,
+        "name": "C",
+        "axes": [
+          "k",
+          "l"
+        ]
+      }
+    ],
+    "dimensions": {
+      "i": 10,
+      "j": 30,
+      "k": 5,
+      "l": 60
+    },
+    "expectedCost": "4500"
+  },
+  "matrix_chain_4": {
+    "tensors": [
+      {
+        "id": 0,
+        "name": "A",
+        "axes": [
+          "i",
+          "j"
+        ]
+      },
+      {
+        "id": 1,
+        "name": "B",
+        "axes": [
+          "j",
+          "k"
+        ]
+      },
+      {
+        "id": 2,
+        "name": "C",
+        "axes": [
+          "k",
+          "l"
+        ]
+      },
+      {
+        "id": 3,
+        "name": "D",
+        "axes": [
+          "l",
+          "m"
+        ]
+      }
+    ],
+    "dimensions": {
+      "i": 50,
+      "j": 20,
+      "k": 1,
+      "l": 10,
+      "m": 64
+    },
+    "expectedCost": "4840"
+  },
+  "outer_product": {
+    "tensors": [
+      {
+        "id": 0,
+        "name": "A",
+        "axes": [
+          "i"
+        ]
+      },
+      {
+        "id": 1,
+        "name": "B",
+        "axes": [
+          "j"
+        ]
+      }
+    ],
+    "dimensions": {
+      "i": 10,
+      "j": 20
+    },
+    "expectedCost": "200"
+  },
+  "star_network_4": {
+    "tensors": [
+      {
+        "id": 0,
+        "name": "Center",
+        "axes": [
+          "i",
+          "j",
+          "k"
+        ]
+      },
+      {
+        "id": 1,
+        "name": "Branch1",
+        "axes": [
+          "i",
+          "x"
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Branch2",
+        "axes": [
+          "j",
+          "y"
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Branch3",
+        "axes": [
+          "k",
+          "z"
+        ]
+      }
+    ],
+    "dimensions": {
+      "i": 4,
+      "j": 8,
+      "k": 2,
+      "x": 3,
+      "y": 2,
+      "z": 5
+    },
+    "expectedCost": "236"
+  }
+}
